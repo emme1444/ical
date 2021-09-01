@@ -65,6 +65,7 @@ class IRecurrenceRule {
     "FR",
     "SA"
   ];
+
   IRecurrenceRule({
     this.frequency,
     this.untilDate,
@@ -72,6 +73,7 @@ class IRecurrenceRule {
     this.interval = 0,
     this.weekday = 0,
   });
+
   String serialize() {
     var out = StringBuffer();
     out..write('RRULE:FREQ=$frequency');
@@ -110,7 +112,8 @@ class IOrganizer {
   }
 }
 
-abstract class ICalendarElement implements AbstractSerializer, AbstractDeserializer {
+abstract class ICalendarElement
+    implements AbstractSerializer, AbstractDeserializer {
   IOrganizer organizer;
   String uid;
   String summary;
@@ -163,7 +166,8 @@ abstract class ICalendarElement implements AbstractSerializer, AbstractDeseriali
     summary = structure["SUMMARY"]?.value;
     url = structure["URL"]?.value;
     final classificationString = structure["CLASSIFICATION"]?.value;
-    if(classificationString != null) classification = IClass._(classificationString);
+    if (classificationString != null)
+      classification = IClass._(classificationString);
     // TODO support rrule
   }
 
