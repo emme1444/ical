@@ -1,11 +1,10 @@
-import 'package:ical/src/calendar.dart';
 import 'package:ical/src/parser.dart';
 import 'package:ical/src/structure.dart';
 import 'package:test/test.dart';
 
 main() {
   group('Structure', () {
-    ICalParser parser;
+    late ICalParser parser;
     setUp(() {
       parser = ICalParser();
     });

@@ -1,10 +1,9 @@
-import 'package:ical/src/calendar.dart';
 import 'package:ical/src/parser.dart';
 import 'package:test/test.dart';
 
 main() {
   group('Parser', () {
-    ICalParser parser;
+    late ICalParser parser;
     setUp(() {
       parser = ICalParser();
     });
@@ -14,13 +13,13 @@ main() {
 
       var result = parser.parseText(withMiddle);
       var row = result.firstWhere((element) => element.key == "DTSTART");
-      expect(row?.value, "20200908");
-      expect(row?.properties["VALUE"], "DATE");
+      expect(row.value, "20200908");
+      expect(row.properties["VALUE"], "DATE");
 
       result = parser.parseText(withoutMiddle);
       row = result.firstWhere((element) => element.key == "CREATED");
-      expect(row?.value, "20200827T080438Z");
-      expect(row?.properties?.length, 0);
+      expect(row.value, "20200827T080438Z");
+      expect(row.properties.length, 0);
     });
 
     test('parse multiple rows', () {
@@ -31,14 +30,17 @@ DTSTART;VALUE=DATE:20200907
 DTEND;VALUE=DATE:20200908""";
       final result = parser.parseText(testIcs);
       expect(result.length, 5);
-      expect(result.map((e) => e.key), ["CREATED", "DTSTAMP", "LAST-MODIFIED", "DTSTART", "DTEND"]);
+      expect(result.map((e) => e.key),
+          ["CREATED", "DTSTAMP", "LAST-MODIFIED", "DTSTART", "DTEND"]);
     });
 
     test('parse calendar', () {
       const foldedRow = """TEST:testtesttesttesttesttest
  testtest""";
-      final row = parser.parseText(foldedRow).firstWhere((element) => element.key == "TEST");
-      expect(row?.value, "testtesttesttesttesttesttesttest");
+      final row = parser
+          .parseText(foldedRow)
+          .firstWhere((element) => element.key == "TEST");
+      expect(row.value, "testtesttesttesttesttesttesttest");
     });
 
     test('parse example ICalStructure', () {

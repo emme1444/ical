@@ -9,7 +9,7 @@ class ICalendar implements AbstractSerializer, AbstractDeserializer {
   String company;
   String product;
   String lang;
-  Duration refreshInterval;
+  Duration? refreshInterval;
 
   ICalendar({
     this.company = 'dartclub',
@@ -32,7 +32,7 @@ class ICalendar implements AbstractSerializer, AbstractDeserializer {
 
     if (refreshInterval != null) {
       out.writeln(
-          'REFRESH-INTERVAL;VALUE=DURATION:${utils.formatDuration(refreshInterval)}');
+          'REFRESH-INTERVAL;VALUE=DURATION:${utils.formatDuration(refreshInterval!)}');
     }
 
     for (ICalendarElement element in _elements) {

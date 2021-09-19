@@ -1,15 +1,17 @@
+import 'package:collection/collection.dart' show IterableExtension;
+
 class ICalStructure {
   final String type;
-  final List<ICalRow /*!*/ > rows;
+  final List<ICalRow> rows;
   final List<ICalStructure> children;
 
-  ICalRow operator [](String key) {
-    return rows.firstWhere((row) => row.key == key, orElse: () => null);
+  ICalRow? operator [](String key) {
+    return rows.firstWhereOrNull((row) => row.key == key);
   }
 
   const ICalStructure(this.type, this.rows, this.children);
 
-  factory ICalStructure.fromRows(List<ICalRow /*!*/ > rows) {
+  factory ICalStructure.fromRows(List<ICalRow> rows) {
     final beginRow = rows.removeAt(0);
     //if(beginRow == null) throw Exception("No begin row found");
     final type = beginRow.value;
@@ -30,16 +32,17 @@ class ICalStructure {
     // remove END row
     // TODO check if end row is valid
     final endRow = rows.removeLast();
-    if (endRow.key != "END" || endRow.value != type)
+    if (endRow.key != "END" || endRow.value != type) {
       throw Exception("Invalid END row");
+    }
     return ICalStructure(type, rows, children);
   }
 }
 
 class ICalRow {
-  final String/*!*/ key;
+  final String key;
   final String value;
-  final Map<String/*!*/, String> properties;
+  final Map<String, String> properties;
 
   const ICalRow(this.key, this.value, {this.properties = const {}});
 }
